@@ -22,3 +22,19 @@ with open('text_file.txt') as file:
             fifth_line=lines(line)
         else:
             remaining_lines(line)
+
+
+def standart():
+    state=True
+    print(third_line)
+    if len(third_line)==1:
+        initial_state=third_line[0]
+
+        for i in range(len(data_6th_line)):
+    
+            if initial_state==data_6th_line[i][2]:
+
+                state=False
+    else:
+        return False
+    return state
