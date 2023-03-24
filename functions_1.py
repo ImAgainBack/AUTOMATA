@@ -27,7 +27,7 @@ with open('text_file.txt') as file: #opening the txt file containing automata
 def standart(): #checking if the automata is standart
     state=True #bool value check
     if len(third_line)==1: #cheking if there is multiple initial states, if so will go to line 38 and print False, meaning not standart
-        initial_state=third_line[0] #collecting the int value of the 4rd line, which is the initial state
+        initial_state=third_line[0] #collecting the int value of the 3rd line, which is the initial state
 
         for i in range(len(data_6th_line)): #loop to lopp through all the elements in the 2d array
     
