@@ -107,7 +107,7 @@ def make_complete_array1(array_first_line,array_second_line,array_fith_line, arr
     for j in range(0,nrows):
         while(array_data_6th_line[2][j]!="p"): #the function will stop compiling when it reaches a row containing the p state, meaning the automaton is already complete
             if alphabet_size==1:  #in the case the only letter recognized is "a" for example
-                if array_data_6th_line[0][j]!=i: #it will detect which lines are missing to make the automaton complete
+                if array_data_6th_line[0][j]==i: #it will detect which lines are missing to make the automaton complete
                     i+=1
                     j+=1
                 else:
