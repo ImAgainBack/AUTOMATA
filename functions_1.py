@@ -39,6 +39,8 @@ def standart(): #checking if the automata is standart
         return False 
     return state
 
+#-------------------------------------PRINTS TABLE AUTOMATA------------------------------------------
+
 def print_automata_array():
     alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
     result = ''
@@ -75,7 +77,8 @@ def print_automata_array():
                 print('  ' + current_letter, end="")
         print("\n")
         
-        
+#-------------------------------------PRINTS TABLE AUTOMATA------------------------------------------
+
 def determinized(): #function to check if the automata is determinized 
     def find_duplicates(lst, indices): #by so we will find duplicates in the 2d array, check comments in functions_1
         seen = set()
