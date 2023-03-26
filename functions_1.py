@@ -96,3 +96,28 @@ def determinized(): #function to check if the automata is determinized
         return True #this automata is determinized
     else:
         return False
+
+    
+#------------------------------RETURNS COMPLETE AUTOMATA-------------------------------------------
+def make_complete_array1(array_first_line,array_second_line,array_fith_line, array_data_6th_line):
+    nrows: int = len(array)      #works for deterministic non-complete automaton only
+    i : int=0
+    alphabet_size: int =array_first_line
+    number_of_states=array_second_line
+    for j in range(0,nrows):
+        while(array_data_6th_line[2][j]!="p"): #the function will stop compiling when it reaches a row containing the p state, meaning the automaton is already complete
+            if alphabet_size==1:  #in the case the only letter recognized is "a" for example
+                if array_data_6th_line[0][j]!=i: #it will detect which lines are missing to make the automaton complete
+                    i+=1
+                    j+=1
+                else:
+                    new_row=["i","a","p"]     #create a row that will be inserted to complete
+                    array_data_6th_line=array_data_6th_line.append(new_row, ignore_index=True)
+                    array_fifht_line+=1      #because we added 1 transition
+                    i+=1
+            #the function is not able to deal with 2 letters alphabet yet
+    if alphabet_size==1:
+        sink_row=["p", "a", "p"]
+        array_data_6th_line = array_data_6th_line.append(sink_row, ignore_index=True) #we add the sink row at the end
+    return array_data_6th_line
+#------------------------------RETURNS COMPLETE AUTOMATA-------------------------------------------
