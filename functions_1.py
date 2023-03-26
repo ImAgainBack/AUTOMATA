@@ -1,3 +1,4 @@
+#-------------------------------------ALLOWS TO READ FILE-----------------------------
 def lines(line): #a function that gents 1 line and splits values in a list
     data = line.split()
     return data
@@ -22,7 +23,7 @@ with open('text_file.txt') as file: #opening the txt file containing automata
             fifth_line=lines(line)
         else:
             remaining_lines(line)
-
+#-------------------------------------ALLOWS TO READ FILE-----------------------------
 
 def standart(): #checking if the automata is standart
     state=True #bool value check
