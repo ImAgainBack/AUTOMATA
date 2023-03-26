@@ -37,3 +37,39 @@ def standart(): #checking if the automata is standart
     else:
         return False 
     return state
+
+def print_automata_array():
+    alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    result = ''
+    file = open('text_file.txt', 'r')
+    read = file.readlines()
+    for i in range(int(read[0])):
+        result += alphabet[i] + "  "
+    print("     | " + result)
+    print("-----+" + int(read[0]) * '---')             #so far we print the alphabet with the right format
+    for j in range(int(read[1])):       #first "for" loop with j going through every state
+        for k in range(int(read[0])):        #for transitions k goes through the hole alphabet of the automata
+            current_letter=''
+            for i in range(int(read[4])):           #for every transitions one compare the state and the transition
+                if j == int(read[i+5][0]):
+                    if read[i+5][2] == alphabet[k]:
+                        current_letter += read[i+5][4] + ','
+            if current_letter == '':
+                current_letter = '-'
+            else:
+                current_letter = current_letter[0:len(current_letter)-1]
+            if k == 0:
+                bool = False
+                for p in range(2 * int(read[2][0])):
+                    if str(j) == read[2][p]:
+                        print('-> ' + str(j) + " | " + current_letter, end="")
+                        bool = True
+                for l in range(2 * int(read[3][0])):
+                    if str(j) == read[3][l]:
+                        print('<- ' + str(j) + " | " + current_letter, end="")
+                        bool = True
+                if bool is False:
+                    print('   ' + str(j) + " | " + current_letter, end="")
+            else:
+                print('  ' + current_letter, end="")
+        print("\n")
