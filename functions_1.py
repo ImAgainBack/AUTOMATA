@@ -1,4 +1,8 @@
 #-------------------------------------ALLOWS TO READ FILE-----------------------------
+from itertools import groupby
+import graphviz
+
+
 def lines(line): #a function that gents 1 line and splits values in a list
     data = line.split()
     return data
@@ -28,14 +32,14 @@ def file_read(txt_file):
     #that can be called by file_read(txt_file)[] inside bracets you put your wished line
 #-------------------------------------ALLOWS TO READ FILE-----------------------------
 
-def standart(): #checking if the automata is standart
+def standart(file_txt): #checking if the automata is standart
     state=True #bool value check
-    if len(third_line)==1: #cheking if there is multiple initial states, if so will go to line 38 and print False, meaning not standart
-        initial_state=third_line[0] #collecting the int value of the 3rd line, which is the initial state
-
-        for i in range(len(data_6th_line)): #loop to lopp through all the elements in the 2d array
+    if len(file_read(file_txt)[2])==1: #cheking if there is multiple initial states, if so will go to line 38 and print False, meaning not standart
+        initial_state=file_read(file_txt)[2][0] #collecting the int value of the 3rd line, which is the initial state
+        array=file_read(file_txt)[5]
+        for i in range(len(file_read(file_txt)[5])): #loop to lopp through all the elements in the 2d array
     
-            if initial_state==data_6th_line[i][2]:#loop to check if there is a match between the 3rd element of the 2d array 
+            if initial_state==array[i][2]:#loop to check if there is a match between the 3rd element of the 2d array
 
                 state=False #if there is a match between the last element of the 2d array and the initial state, not standart automata
     else:
@@ -82,7 +86,7 @@ def print_automata_array():
         
 #-------------------------------------PRINTS TABLE AUTOMATA------------------------------------------
 
-def determinized(): #function to check if the automata is determinized 
+def determinized(file_name): #function to check if the automata is determinized
     def find_duplicates(lst, indices): #by so we will find duplicates in the 2d array, check comments in functions_1
         seen = set()
         duplicates = set()
@@ -215,6 +219,39 @@ def is_automaton_complete(file_name):
 
 # call the function with the filename of the automaton
 print("The automaton is complete : ", is_automaton_complete('automate.txt'))
+print("The automaton is standard : ", standart('automate.txt'))
+print("The automaton is deterministic : ", determinized('automate.txt'))
+
 display_finite_automaton('automate.txt')
 
+
+
+
+
 #-----------------------------GRAPHICAL REPRESENTATION------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
