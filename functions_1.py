@@ -48,10 +48,10 @@ def standart(file_txt): #checking if the automata is standart
 
 #-------------------------------------PRINTS TABLE AUTOMATA------------------------------------------
 
-def print_automata_array():
+def print_automata_array(file_name):
     alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
     result = ''
-    file = open('text_file.txt', 'r')
+    file = open(file_name, 'r')
     read = file.readlines()
     for i in range(int(read[0])):
         result += alphabet[i] + "  "
@@ -221,6 +221,7 @@ def is_automaton_complete(file_name):
 print("The automaton is complete : ", is_automaton_complete('automate.txt'))
 print("The automaton is standard : ", standart('automate.txt'))
 print("The automaton is deterministic : ", determinized('automate.txt'))
+print("The state of the automation is \n", print_automata_array('automate.txt'))
 
 display_finite_automaton('automate.txt')
 
