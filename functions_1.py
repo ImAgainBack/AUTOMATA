@@ -31,7 +31,7 @@ def file_read(txt_file):
         return first_line, second_line, third_line,fourth_line, fifth_line, data_6th_line #for each line, one array dedicated
     #that can be called by file_read(txt_file)[] inside bracets you put your wished line
 #-------------------------------------ALLOWS TO READ FILE-----------------------------
-
+#print(file_read('automate.txt')[5])
 def is_automaton_standard(file_txt): #checking if the automata is is_automaton_standard
     state=True #bool value check
     if len(file_read(file_txt)[2])==1: #cheking if there is multiple initial states, if so will go to line 38 and print False, meaning not is_automaton_standard
@@ -217,15 +217,95 @@ def is_automaton_complete(file_name):
     return True
 
 
+def create_new_table(file_name): #we create the array in this function
+    m = file_read(file_name)[1]
+    n = file_read(file_name)[0]
+    a = n[0]
+    b = m[0]
+    c=int(a)+1
+    d=int(b)+1
+    new_table = [[" " for j in range(d-1)] for i in range(c+1)]
+    new_table[0][0]='states'
+    for j in range(1,d):
+        new_table[j][0]=j-1
+    new_table[0][1]='a'  #any automaton contains a as first letter
+    e=len(new_table[0])
+
+    if e>=3:    #we add the letters of the alphabet of the automaton
+        new_table[0][2]='b'
+        if e>=4:
+            new_table[0][3]='c'
+            if e>=5:
+                new_table[0][4]='d'
+                if e>=6:
+                    new_table[0][5]='e'
+
+    return new_table
+
+
+def fill_new_table(file_name,new_table):   #now, we fill new_table with the transitions
+    i = 0 #we define i,that defines the current state of automata we are working on
+    a=file_read(file_name)[4]
+    b= a[0]
+    c=int(b)
+    print(new_table)
+    print(file_read(file_name)[5])
+    data_6th_line=file_read(file_name)[5]
+    #print(new_table)
+    for j in range (0,c-1):
+        if data_6th_line[j][0]==i:
+            if data_6th_line[j][1]=='a':
+                new_table[i+1][1]=data_6th_line[j][2] #we fill the 'a' column for example
+            elif data_6th_line[j][1]=='b':
+                new_table[i+1][2]=data_6th_line[j][2]
+            elif data_6th_line[j][1]=='c':
+                new_table[i+1][3]=data_6th_line[j][2]
+            elif data_6th_line[j][1]=='d':
+                new_table[i+1][4]=data_6th_line[j][2]
+            elif data_6th_line[j][1]=='e':
+                new_table[i+1][5]=data_6th_line[j][2]
+        else:
+            i+=1  #we get to the next row from new_table, to fill the next state
+            j-=1  #we want to treat the same line of the txt (represented in data_6th_line)
+                  #so we do : j-=1 to compensate j increasing by 1 because of the for loop. Then, j remains constant
+    return new_table  #we return the TRANSITION TABLE of the automata
+
+    # this transition table will help us a lot to make the completion of automata
+
+
+def make_complete_table(trans_table):  #create a new complete table, we use this function...
+    ncolumns : int = len(trans_table[0])        #if the is_automaton_complete function returns false
+    nrows : int = len(trans_table)
+    for i in range(1,ncolumns):
+        for j in range(1,nrows):
+            if trans_table[i,j]==" ":
+                trans_table[i,j]="p"                   #we replace "-" by "p"
+    if ncolumns == 2:                         #the new row lenght depend on the array size
+        new_row = ["p","p"]
+    elif ncolumns == 3:
+        new_row = ["p","p","p"]
+    elif ncolumns == 4:
+        new_row = ["p","p","p","p"]
+    elif ncolumns == 5:
+        new_row = ["p","p","p","p","p"]
+    elif ncolumns == 6:
+        new_row = ["p", "p", "p", "p", "p","p"]
+    trans_table = trans_table.append(new_row)  #we add new_row (sink state) as the last row of the array
+    return trans_table
+
+
+
+
 # call the function with the filename of the automaton
-print("The automaton is complete : ", is_automaton_complete('automate.txt'))
-print("The automaton is standard : ", is_automaton_standard('automate.txt'))
-print("The automaton is deterministic : ", is_automaton_deterministic('automate.txt'))
-print("The state of the automation is \n", print_automata_array('automate.txt'))
+#print("The automaton is complete : ", is_automaton_complete('automate.txt'))
+#print("The automaton is standard : ", is_automaton_standard('automate.txt'))
+#print("The automaton is deterministic : ", is_automaton_deterministic('automate.txt'))
 
-display_finite_automaton('automate.txt')
+#print("\n", fill_new_table('automate.txt',create_new_table(data,'automate.txt')))
+#print("\n\n", print_automata_array('automate.txt'))
 
-
+fill_new_table('automate.txt',create_new_table('automate.txt'))
+#display_finite_automaton('automate.txt')
 
 
 
