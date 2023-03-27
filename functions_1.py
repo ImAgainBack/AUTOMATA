@@ -9,20 +9,23 @@ def remaining_lines(line): #function that gets used in the 6th line and so on
     return data
 
 data_6th_line=[] #creation of the 2d array
-with open('text_file.txt') as file: #opening the txt file containing automata
-    for i, line in enumerate(file):
-        if i == 0:
-            first_line=lines(line)
-        elif i == 1:
-            second_line=lines(line)
-        elif i == 2:
-            third_line=lines(line)
-        elif i == 3:
-            fourth_line=lines(line)
-        elif i == 4:
-            fifth_line=lines(line)
-        else:
-            remaining_lines(line)
+def file_read(txt_file):
+    with open(txt_file) as file: #opening the txt file containing automata
+        for i, line in enumerate(file):
+            if i == 0:
+                first_line=lines(line)
+            elif i == 1:
+                second_line=lines(line)
+            elif i == 2:
+                third_line=lines(line)
+            elif i == 3:
+                fourth_line=lines(line)
+            elif i == 4:
+                fifth_line=lines(line)
+            else:
+                remaining_lines(line)
+        return first_line, second_line, third_line,fourth_line, fifth_line, data_6th_line #for each line, one array dedicated
+    #that can be called by file_read(txt_file)[] inside bracets you put your wished line
 #-------------------------------------ALLOWS TO READ FILE-----------------------------
 
 def standart(): #checking if the automata is standart
