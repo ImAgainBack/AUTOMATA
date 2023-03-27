@@ -1,5 +1,6 @@
-import graphviz
+#-------------------------------------ALLOWS TO READ FILE-----------------------------
 from itertools import groupby
+import graphviz
 
 
 def lines(line): #a function that gents 1 line and splits values in a list
@@ -12,35 +13,40 @@ def remaining_lines(line): #function that gets used in the 6th line and so on
     return data
 
 data_6th_line=[] #creation of the 2d array
-with open('text_file.txt') as file: #opening the txt file containing automata
-    for i, line in enumerate(file):
-        if i == 0:
-            first_line=lines(line)
-        elif i == 1:
-            second_line=lines(line)
-        elif i == 2:
-            third_line=lines(line)
-        elif i == 3:
-            fourth_line=lines(line)
-        elif i == 4:
-            fifth_line=lines(line)
-        else:
-            remaining_lines(line)
+def file_read(txt_file):
+    with open(txt_file) as file: #opening the txt file containing automata
+        for i, line in enumerate(file):
+            if i == 0:
+                first_line=lines(line)
+            elif i == 1:
+                second_line=lines(line)
+            elif i == 2:
+                third_line=lines(line)
+            elif i == 3:
+                fourth_line=lines(line)
+            elif i == 4:
+                fifth_line=lines(line)
+            else:
+                remaining_lines(line)
+        return first_line, second_line, third_line,fourth_line, fifth_line, data_6th_line #for each line, one array dedicated
+    #that can be called by file_read(txt_file)[] inside bracets you put your wished line
+#-------------------------------------ALLOWS TO READ FILE-----------------------------
 
-
-def standart(): #checking if the automata is standart
+def standart(file_txt): #checking if the automata is standart
     state=True #bool value check
-    if len(third_line)==1: #cheking if there is multiple initial states, if so will go to line 38 and print False, meaning not standart
-        initial_state=third_line[0] #collecting the int value of the 3rd line, which is the initial state
-
-        for i in range(len(data_6th_line)): #loop to lopp through all the elements in the 2d array
+    if len(file_read(file_txt)[2])==1: #cheking if there is multiple initial states, if so will go to line 38 and print False, meaning not standart
+        initial_state=file_read(file_txt)[2][0] #collecting the int value of the 3rd line, which is the initial state
+        array=file_read(file_txt)[5]
+        for i in range(len(file_read(file_txt)[5])): #loop to lopp through all the elements in the 2d array
     
-            if initial_state==data_6th_line[i][2]:#loop to check if there is a match between the 3rd element of the 2d array 
+            if initial_state==array[i][2]:#loop to check if there is a match between the 3rd element of the 2d array
 
                 state=False #if there is a match between the last element of the 2d array and the initial state, not standart automata
     else:
         return False 
     return state
+
+#-------------------------------------PRINTS TABLE AUTOMATA------------------------------------------
 
 def print_automata_array():
     alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
@@ -77,16 +83,60 @@ def print_automata_array():
             else:
                 print('  ' + current_letter, end="")
         print("\n")
+        
+#-------------------------------------PRINTS TABLE AUTOMATA------------------------------------------
 
+def determinized(file_name): #function to check if the automata is determinized
+    def find_duplicates(lst, indices): #by so we will find duplicates in the 2d array, check comments in functions_1
+        seen = set()
+        duplicates = set()
+        for i, sublist in enumerate(lst):
+            key = tuple(sublist[i] for i in indices)
+            if key in seen:
+                duplicates.add(i)
+            seen.add(key)
+        return duplicates
 
+    duplicates = find_duplicates(data_6th_line, [0,1]) #[0,1] are elements in the 2d array, so we will check in the loop below if there is a match
+        
+    if duplicates==set(): #if no duplicates
+        return True #this automata is determinized
+    else:
+        return False
 
+    
+#------------------------------RETURNS COMPLETE AUTOMATA-------------------------------------------
+def make_complete_array1(array_first_line,array_second_line,array_fith_line, array_data_6th_line):
+    nrows: int = len(array)      #works for deterministic non-complete automaton only
+    i : int=0
+    alphabet_size: int =array_first_line
+    number_of_states=array_second_line
+    for j in range(0,nrows):
+        while(array_data_6th_line[2][j]!="p"): #the function will stop compiling when it reaches a row containing the p state, meaning the automaton is already complete
+            if alphabet_size==1:  #in the case the only letter recognized is "a" for example
+                if array_data_6th_line[0][j]==i: #it will detect which lines are missing to make the automaton complete
+                    i+=1
+                    j+=1
+                else:
+                    new_row=["i","a","p"]     #create a row that will be inserted to complete
+                    array_data_6th_line=array_data_6th_line.append(new_row, ignore_index=True)
+                    array_fifht_line+=1      #because we added 1 transition
+                    i+=1
+            #the function is not able to deal with 2 letters alphabet yet
+    if alphabet_size==1:
+        sink_row=["p", "a", "p"]
+        array_data_6th_line = array_data_6th_line.append(sink_row, ignore_index=True) #we add the sink row at the end
+    return array_data_6th_line
+#------------------------------RETURNS COMPLETE AUTOMATA-------------------------------------------
+
+#-----------------------------GRAPHICAL REPRESENTATION------------------------------------
 def display_finite_automaton(file_name):
     # open the file and read the data
     with open(file_name, 'r') as f:
         number_of_symbols = int(f.readline())
         number_of_states = int(f.readline())
-        initial_states = list(map(int, f.readline().split()))
-        final_states = list(map(int, f.readline().split()))
+        nb_of_initial_states = list(map(int, f.readline().split()))
+        nb_of_final_states = list(map(int, f.readline().split()))
         nb_of_transitions = int(f.readline())
         transitions = [f.readline().split() for _ in range(nb_of_transitions)]
 
@@ -108,16 +158,16 @@ def display_finite_automaton(file_name):
     # add the states to the Graphviz object
     for i in range(number_of_states):
         # check if the state is an initial state
-        if i in initial_states:
+        if i in nb_of_initial_states:
             # add the start node for each initial state
-            for index, initial_state in enumerate(initial_states):
+            for index, initial_state in enumerate(nb_of_initial_states):
                 if i == initial_state:
                     dot.node(f'start{index}', shape='point')
                     dot.edge(f'start{index}', str(i), label='', arrowhead='normal')
             # add the circle node for each state that is not an initial state
             dot.node(str(i), shape='circle')
         # check if the state is a final state
-        if i in final_states:
+        elif i in nb_of_final_states:
             dot.node(str(i), shape='doublecircle')
         else:
             # add the circle node for each state that is not an initial state or a final state
@@ -165,3 +215,63 @@ def is_automaton_complete(file_name):
             return False
 
     return True
+
+
+# call the function with the filename of the automaton
+print("The automaton is complete : ", is_automaton_complete('automate.txt'))
+print("The automaton is standard : ", standart('automate.txt'))
+print("The automaton is deterministic : ", determinized('automate.txt'))
+
+display_finite_automaton('automate.txt')
+
+
+
+
+
+#-----------------------------GRAPHICAL REPRESENTATION------------------------------------
+
+
+
+#-----------------------axel------------------------------------
+
+def create_new_table(array,txt_file): #we create the array in this function
+    new_table=[1+file_read(txt_file)[1],1+file_read(txt_file)[0]]
+    new_table[0][0]='states'
+    for j in range(1,file_read(txt_file)):
+        new_table[j][0]='j'
+    new_table[0][1]='a'  #any automaton contains a as first letter
+    if len(new_table[0]>=3):    #we add the letters of the alphabet of the automaton
+        new_table[0][2]='b'
+        if len(new_table[0]>=4):
+            new_table[0][2]='c'
+            if len(new_table[0]>=5):
+                new_table[0][2]='d'
+                if len(new_table[0]>=6):
+                    new_table[0][2]='e'
+    return new_table
+
+
+def fill_new_table(array,txt_file,new_table):   #now, we fill new_table with the transitions
+    i = 0 #we define i,that defines the current state of automata we are working on
+    a=file_read('text_file.txt')[4]
+    for j in range (0,int(a)-1):
+        if data_6th_line[j][0]==i:
+            if data_6th_line[j][1]=='a':
+                new_table[i+1][1]=data_6th_line[j][2] #we fill the a column
+            elif data_6th_line[j][1]=='b': 
+                new_table[i+1][2]=data_6th_line[j][2]
+            elif data_6th_line[j][1]=='c': 
+                new_table[i+1][3]=data_6th_line[j][2]
+            elif data_6th_line[j][1]=='d': 
+                new_table[i+1][4]=data_6th_line[j][2]
+            elif data_6th_line[j][1]=='e': 
+                new_table[i+1][5]=data_6th_line[j][2]    
+
+
+def txtToTable(array,txt_file):
+    i=0
+    for j in range (file_read(txt_file)[4]):
+       
+
+
+#-------------------axel--------------------------------------------
