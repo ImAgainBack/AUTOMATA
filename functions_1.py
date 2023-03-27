@@ -167,7 +167,7 @@ def display_finite_automaton(file_name):
             # add the circle node for each state that is not an initial state
             dot.node(str(i), shape='circle')
         # check if the state is a final state
-        elif i in nb_of_final_states:
+        if i in nb_of_final_states:
             dot.node(str(i), shape='doublecircle')
         else:
             # add the circle node for each state that is not an initial state or a final state
