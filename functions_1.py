@@ -232,26 +232,46 @@ display_finite_automaton('automate.txt')
 
 
 
+#-----------------------axel------------------------------------
+
+def create_new_table(array,txt_file): #we create the array in this function
+    new_table=[1+file_read(txt_file)[1],1+file_read(txt_file)[0]]
+    new_table[0][0]='states'
+    for j in range(1,file_read(txt_file)):
+        new_table[j][0]='j'
+    new_table[0][1]='a'  #any automaton contains a as first letter
+    if len(new_table[0]>=3):    #we add the letters of the alphabet of the automaton
+        new_table[0][2]='b'
+        if len(new_table[0]>=4):
+            new_table[0][2]='c'
+            if len(new_table[0]>=5):
+                new_table[0][2]='d'
+                if len(new_table[0]>=6):
+                    new_table[0][2]='e'
+    return new_table
 
 
+def fill_new_table(array,txt_file,new_table):   #now, we fill new_table with the transitions
+    i = 0 #we define i,that defines the current state of automata we are working on
+    a=file_read('text_file.txt')[4]
+    for j in range (0,int(a)-1):
+        if data_6th_line[j][0]==i:
+            if data_6th_line[j][1]=='a':
+                new_table[i+1][1]=data_6th_line[j][2] #we fill the a column
+            elif data_6th_line[j][1]=='b': 
+                new_table[i+1][2]=data_6th_line[j][2]
+            elif data_6th_line[j][1]=='c': 
+                new_table[i+1][3]=data_6th_line[j][2]
+            elif data_6th_line[j][1]=='d': 
+                new_table[i+1][4]=data_6th_line[j][2]
+            elif data_6th_line[j][1]=='e': 
+                new_table[i+1][5]=data_6th_line[j][2]    
 
 
+def txtToTable(array,txt_file):
+    i=0
+    for j in range (file_read(txt_file)[4]):
+       
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#-------------------axel--------------------------------------------
