@@ -268,9 +268,7 @@ def fill_new_table(array,txt_file,new_table):   #now, we fill new_table with the
                 new_table[i+1][5]=data_6th_line[j][2]    
 
 
-def txtToTable(array,txt_file):
-    i=0
-    for j in range (file_read(txt_file)[4]):
+
        
 
 
