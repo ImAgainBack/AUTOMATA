@@ -32,16 +32,16 @@ def file_read(txt_file):
     #that can be called by file_read(txt_file)[] inside bracets you put your wished line
 #-------------------------------------ALLOWS TO READ FILE-----------------------------
 
-def standart(file_txt): #checking if the automata is standart
+def is_automaton_standard(file_txt): #checking if the automata is is_automaton_standard
     state=True #bool value check
-    if len(file_read(file_txt)[2])==1: #cheking if there is multiple initial states, if so will go to line 38 and print False, meaning not standart
+    if len(file_read(file_txt)[2])==1: #cheking if there is multiple initial states, if so will go to line 38 and print False, meaning not is_automaton_standard
         initial_state=file_read(file_txt)[2][0] #collecting the int value of the 3rd line, which is the initial state
         array=file_read(file_txt)[5]
         for i in range(len(file_read(file_txt)[5])): #loop to lopp through all the elements in the 2d array
     
             if initial_state==array[i][2]:#loop to check if there is a match between the 3rd element of the 2d array
 
-                state=False #if there is a match between the last element of the 2d array and the initial state, not standart automata
+                state=False #if there is a match between the last element of the 2d array and the initial state, not is_automaton_standard automata
     else:
         return False 
     return state
@@ -86,7 +86,7 @@ def print_automata_array():
         
 #-------------------------------------PRINTS TABLE AUTOMATA------------------------------------------
 
-def determinized(file_name): #function to check if the automata is determinized
+def is_automaton_deterministic(file_name): #function to check if the automata is is_automaton_deterministic
     def find_duplicates(lst, indices): #by so we will find duplicates in the 2d array, check comments in functions_1
         seen = set()
         duplicates = set()
@@ -100,7 +100,7 @@ def determinized(file_name): #function to check if the automata is determinized
     duplicates = find_duplicates(data_6th_line, [0,1]) #[0,1] are elements in the 2d array, so we will check in the loop below if there is a match
         
     if duplicates==set(): #if no duplicates
-        return True #this automata is determinized
+        return True #this automata is is_automaton_deterministic
     else:
         return False
 
@@ -219,8 +219,8 @@ def is_automaton_complete(file_name):
 
 # call the function with the filename of the automaton
 print("The automaton is complete : ", is_automaton_complete('automate.txt'))
-print("The automaton is standard : ", standart('automate.txt'))
-print("The automaton is deterministic : ", determinized('automate.txt'))
+print("The automaton is standard : ", is_automaton_standard('automate.txt'))
+print("The automaton is deterministic : ", is_automaton_deterministic('automate.txt'))
 
 display_finite_automaton('automate.txt')
 
