@@ -296,6 +296,63 @@ def make_complete_table(trans_table):  #create a new complete table, we use this
 
 
 
+def standardize_finite_automaton(file_name):
+    # open the file and read its contents
+    with open(file_name, 'r') as f:
+        alphabet_size = int(f.readline())
+        state_count = int(f.readline())
+        initial_states = list(map(int, f.readline().split()))
+        final_states = list(map(int, f.readline().split()))
+        transition_count = int(f.readline())
+        transitions = [f.readline().split() for _ in range(transition_count)]
+
+    # check if the automaton is already standardized
+    if is_automaton_standard(file_name):
+        return
+
+    # create a dictionary to store transitions
+    transition_dict = {}
+    for transition in transitions:
+        state_from = int(transition[0])
+        state_to = int(transition[2])
+        label = transition[1]
+        if state_from not in transition_dict:
+            transition_dict[state_from] = []
+        transition_dict[state_from].append((state_to, label))
+
+    # create a new state to become the unique initial state
+    new_initial_state = state_count
+    state_count += 1
+
+    # create new transitions from the new initial state to the old initial states
+    for initial_state in initial_states:
+        if initial_state in transition_dict:
+            for state_to, label in transition_dict[initial_state]:
+                transitions.append([str(new_initial_state), label, str(state_to)])
+        else:
+            # if there are no transitions from an initial state, add a transition to a new dead state
+            transitions.append([str(new_initial_state), '', str(state_count)])
+            state_count += 1
+
+    # add the new initial state to the list of initial states if any old initial state was final
+    if any(state in final_states for state in initial_states):
+        final_states.append(new_initial_state)
+
+    # update the initial states to be only the new initial state
+    initial_states = [new_initial_state]
+
+    # write the standardized automaton to a new file
+    with open('standard_automaton.txt', 'w') as f:
+        f.write(f"{alphabet_size}\n")
+        f.write(f"{state_count}\n")
+        f.write(f"{' '.join(map(str, initial_states))}\n")
+        f.write(f"{' '.join(map(str, final_states))}\n")
+        f.write(f"{len(transitions)}\n")
+        for transition in transitions:
+            f.write(' '.join(transition) + '\n')
+
+standardize_finite_automaton('automate.txt')
+
 # call the function with the filename of the automaton
 #print("The automaton is complete : ", is_automaton_complete('automate.txt'))
 #print("The automaton is standard : ", is_automaton_standard('automate.txt'))
@@ -310,29 +367,3 @@ fill_new_table('automate.txt',create_new_table('automate.txt'))
 
 
 #-----------------------------GRAPHICAL REPRESENTATION------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
