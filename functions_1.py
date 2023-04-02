@@ -194,7 +194,45 @@ def make_complete_array1(array_first_line,array_second_line,array_fith_line, arr
         sink_row=["p", "a", "p"]
         array_data_6th_line = array_data_6th_line.append(sink_row, ignore_index=True) #we add the sink row at the end
     return array_data_6th_line
-#------------------------------RETURNS COMPLETE AUTOMATA-------------------------------------------
+#------------------------------COMPLETE AUTOMATA-------------------------------------------
+
+def complete_automaton(file_name):
+    if not is_deterministic('automate.txt'):
+        print("The automaton is not deterministic so it's not completable")
+    else :
+        input_automaton = read_automaton(file_name)
+
+        if not is_automaton_complete(file_name):
+            num_symbols, num_states, initial_states, final_states, num_transitions, transitions = input_automaton
+            new_transitions = list(transitions)
+
+            # Add a new stink state
+            sink_state = num_states
+            num_states += 1
+
+            for state in range(num_states - 1):
+                for symbol in range(num_symbols):
+                    symbol_char = chr(ord('a') + symbol)
+                    # Check if a transition with the same state and the same symbol does not already exist in transitions
+                    if not any(transition for transition in transitions if transition[0] == str(state) and transition[1] == symbol_char):
+                        new_transitions.append((state, symbol_char, sink_state))
+
+            # Add transitions to the well state for missing symbols
+            for symbol in range(num_symbols):
+                symbol_char = chr(ord('a') + symbol)
+                if not any(transition for transition in transitions if transition[0] == sink_state and transition[1] == symbol_char):
+                    new_transitions.append((sink_state, symbol_char, sink_state))
+
+            num_transitions = len(new_transitions)
+
+            # Write the new automaton to a file
+            with open("complete_automaton.txt", "w") as file:
+                file.write(f"{num_symbols}\n{num_states}\n")
+                file.write(" ".join(str(s) for s in initial_states) + "\n")
+                file.write(" ".join(str(s) for s in final_states) + "\n")
+                file.write(f"{num_transitions}\n")
+                for transition in new_transitions:
+                    file.write(" ".join(str(t) for t in transition) + "\n")
 
 #-----------------------------GRAPHICAL REPRESENTATION------------------------------------
 def display_finite_automaton(file_name):
