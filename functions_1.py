@@ -274,7 +274,7 @@ def standardize_finite_automaton(file_name):
             f.write(' '.join(transition) + '\n')
 
 
-
+#----------------------Test------------------------------------
 
 # call the function with the filename of the automaton
 print("The automaton is complete : ", is_automaton_complete('automate.txt'))
