@@ -87,23 +87,90 @@ def print_automata_array(file_name):
 #-------------------------------------PRINTS TABLE AUTOMATA------------------------------------------
 
 def is_automaton_deterministic(file_name): #function to check if the automata is is_automaton_deterministic
-    def find_duplicates(lst, indices): #by so we will find duplicates in the 2d array, check comments in functions_1
-        seen = set()
-        duplicates = set()
-        for i, sublist in enumerate(lst):
-            key = tuple(sublist[i] for i in indices)
-            if key in seen:
-                duplicates.add(i)
-            seen.add(key)
-        return duplicates
+    if len(file_read(file_name)[2])==1:
 
-    duplicates = find_duplicates(data_6th_line, [0,1]) #[0,1] are elements in the 2d array, so we will check in the loop below if there is a match
-        
-    if duplicates==set(): #if no duplicates
-        return True #this automata is is_automaton_deterministic
+        def find_duplicates(lst, indices): #by so we will find duplicates in the 2d array, check comments in functions_1
+            seen = set()
+            duplicates = set()
+            for i, sublist in enumerate(lst):
+                key = tuple(sublist[i] for i in indices)
+                if key in seen:
+                    duplicates.add(i)
+                seen.add(key)
+            return duplicates
+
+        duplicates = find_duplicates(data_6th_line, [0,1]) #[0,1] are elements in the 2d array, so we will check in the loop below if there is a match
+            
+        if duplicates==set(): #if no duplicates
+            return True #this automata is is_automaton_deterministic
+        else:
+            return False
     else:
         return False
+ 
+#------------------------------DETERMINIZE--------------------------------------------------------
 
+def determinize_automaton(file_name):
+    input_automaton = read_automaton(file_name)
+
+    # Check if the automaton is already deterministic
+    if not is_deterministic(file_name):
+        num_symbols, num_states, initial_states, final_states, num_transitions, transitions = input_automaton
+
+        # Create the alphabet of the automaton
+        alphabet = [chr(ord('a') + i) for i in range(num_symbols)]  #Create the alphabet of the automaton using the number of symbols.
+
+        # Create a dictionary to store transitions
+        transition_dict = {}
+        for state_from, symbol, state_to in transitions:
+            state_from, state_to = int(state_from), int(state_to)
+            if (state_from, symbol) in transition_dict:
+                transition_dict[(state_from, symbol)].add(state_to)
+            else:
+                transition_dict[(state_from, symbol)] = {state_to}
+
+        # Create the initial state of the deterministic automaton
+        initial_state = frozenset(initial_states)
+
+        # List to store the transitions of the deterministic automaton
+        dfa_transitions = []
+
+        # Use a queue to browse the new states created during the determination
+        visited, queue = set(), [initial_state]
+        while queue:
+            current = queue.pop(0)
+            if current not in visited:
+                visited.add(current)
+
+                # Process each symbol of the alphabet
+                for symbol in alphabet:
+                    next_states = set()
+                    for state in current:
+                        if (state, symbol) in transition_dict:
+                            next_states |= transition_dict[(state, symbol)]
+
+                    # Add the transition if it exists
+                    if next_states:
+                        dfa_transitions.append((current, symbol, frozenset(next_states)))
+                        queue.append(frozenset(next_states))
+
+        # Create a correspondence between the sets of states and the new states of the deterministic automaton
+        state_mapping = {state: i for i, state in enumerate(sorted(visited))}
+
+        # Find the final states of the deterministic automaton
+        dfa_final_states = [state_mapping[state] for state in visited if state & set(final_states)]
+
+        # Convert transitions to strings
+        dfa_transitions_str = [f"{state_mapping[state_from]} {symbol} {state_mapping[state_to]}" for state_from, symbol, state_to in dfa_transitions]
+
+        # Write the deterministic automaton in a new file
+        with open('deterministic_automaton.txt', 'w') as file:
+            file.write(f"{num_symbols}\n")
+            file.write(f"{len(visited)}\n")
+            file.write(f"{state_mapping[initial_state]}\n")
+            file.write(' '.join(map(str, dfa_final_states)) + '\n')
+            file.write(f"{len(dfa_transitions)}\n")
+            file.writelines('\n'.join(dfa_transitions_str))
     
 #------------------------------RETURNS COMPLETE AUTOMATA-------------------------------------------
 def make_complete_array1(array_first_line,array_second_line,array_fith_line, array_data_6th_line):
