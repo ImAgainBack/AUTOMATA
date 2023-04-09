@@ -100,27 +100,24 @@ def print_automata_array(file_name):
         
 #-------------------------------------PRINTS TABLE AUTOMATA------------------------------------------
 
-def is_automaton_deterministic(file_name): #function to check if the automata is is_automaton_deterministic
-    if len(file_read(file_name)[2])==1:
+def is_deterministic(file_name):
+    automaton = read_automaton(file_name)
+    num_symbols, num_states, initial_states, final_states, num_transitions, transitions = automaton
 
-        def find_duplicates(lst, indices): #by so we will find duplicates in the 2d array, check comments in functions_1
-            seen = set()
-            duplicates = set()
-            for i, sublist in enumerate(lst):
-                key = tuple(sublist[i] for i in indices)
-                if key in seen:
-                    duplicates.add(i)
-                seen.add(key)
-            return duplicates
-
-        duplicates = find_duplicates(data_6th_line, [0,1]) #[0,1] are elements in the 2d array, so we will check in the loop below if there is a match
-            
-        if duplicates==set(): #if no duplicates
-            return True #this automata is is_automaton_deterministic
-        else:
-            return False
-    else:
+    # An automaton is non-deterministic if :
+    # 1. It has more than one initial state
+    if len(initial_states) > 1:
         return False
+
+    # 2. There is a transition with the same starting state and the same symbol
+    transition_dict = {}
+    for start, symbol, end in transitions:
+        key = (start, symbol)
+        if key in transition_dict:
+            return False
+        else:
+            transition_dict[key] = end
+    return True
  
 #------------------------------DETERMINIZE--------------------------------------------------------
 
@@ -128,7 +125,7 @@ def determinize_automaton(file_name):
     input_automaton = read_automaton(file_name)
 
     # Check if the automaton is already deterministic
-    if not is_automaton_deterministic(file_name):
+    if not is_deterministic(file_name):
         num_symbols, num_states, initial_states, final_states, num_transitions, transitions = input_automaton
 
         # Create the alphabet of the automaton
@@ -211,7 +208,7 @@ def make_complete_array1(array_first_line,array_second_line,array_fith_line, arr
 #------------------------------COMPLETE AUTOMATA-------------------------------------------
 
 def complete_automaton(file_name):
-    if not is_automaton_deterministic('automate.txt'):
+    if not is_deterministic(file_name):
         print("The automaton is not deterministic so it's not completable")
     else :
         input_automaton = read_automaton(file_name)
@@ -394,7 +391,6 @@ def standardize_finite_automaton(file_name):
 
 
 #----------------------Test------------------------------------
-
 
 
 
