@@ -11,7 +11,7 @@ while b!=5:
             "1- If its deterministic\n"
             "2- If its standart and deterministic\n"
             "3- Standardize an automata\n"
-            "4- Display finite automata\n"
+            "4- Display determinized automata\n"
             "5- Quit\n"))
         if ((0<=b<=4) & (1<=a<=44)):
           if b== 0:
