@@ -128,7 +128,7 @@ def determinize_automaton(file_name):
     input_automaton = read_automaton(file_name)
 
     # Check if the automaton is already deterministic
-    if not is_deterministic(file_name):
+    if not is_automaton_deterministic(file_name):
         num_symbols, num_states, initial_states, final_states, num_transitions, transitions = input_automaton
 
         # Create the alphabet of the automaton
@@ -211,7 +211,7 @@ def make_complete_array1(array_first_line,array_second_line,array_fith_line, arr
 #------------------------------COMPLETE AUTOMATA-------------------------------------------
 
 def complete_automaton(file_name):
-    if not is_deterministic('automate.txt'):
+    if not is_automaton_deterministic('automate.txt'):
         print("The automaton is not deterministic so it's not completable")
     else :
         input_automaton = read_automaton(file_name)
@@ -391,9 +391,6 @@ def standardize_finite_automaton(file_name):
         f.write(f"{len(transitions)}\n")
         for transition in transitions:
             f.write(' '.join(transition) + '\n')
-
-
-#----------------------Test------------------------------------
 
 
 
