@@ -30,6 +30,20 @@ def file_read(txt_file):
                 remaining_lines(line)
         return first_line, second_line, third_line,fourth_line, fifth_line, data_6th_line #for each line, one array dedicated
     #that can be called by file_read(txt_file)[] inside bracets you put your wished line
+
+def read_automaton(file_name):
+    with open(file_name, 'r') as file:
+        lines = file.readlines()
+
+        num_symbols = int(lines[0].strip())
+        num_states = int(lines[1].strip())
+        initial_states = list(map(int, lines[2].strip().split()))
+        final_states = list(map(int, lines[3].strip().split()))
+        num_transitions = int(lines[4].strip())
+        transitions = [tuple(line.strip().split()) for line in lines[5:]]
+
+        return num_symbols, num_states, initial_states, final_states, num_transitions, transitions
+
 #-------------------------------------ALLOWS TO READ FILE-----------------------------
 #print(file_read('automate.txt')[5])
 def is_automaton_standard(file_txt): #checking if the automata is is_automaton_standard
