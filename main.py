@@ -4,14 +4,14 @@ b=3
 
 while b!=5:
   try:
-    a=int(input("Which automata do you want to analyse from 1 to 44?\n"))
+    a=int(input("Which automata do you want to analyse from 1 to 44?\n\n"))
     if 1<=a<=44:
       try:
         b=int(input("0- See graph of that automata\n"
             "1- If its deterministic\n"
             "2- If its standart and deterministic\n"
             "3- Standardize an automata\n"
-            "4- Display determinized automata\n"
+            "4- Determinize the automata\n"
             "5- Quit\n"))
         if ((0<=b<=4) & (1<=a<=44)):
           if b== 0:
@@ -33,9 +33,10 @@ while b!=5:
               print("This automata is NOT standard and IS NOT deterministic.\n\n")
           elif b==3:
             standardize_finite_automaton(f'Int2-5-{a}.txt')
+            display_finite_automaton('standard_automaton.txt')
           elif b==4:
-            blblbl=determinize_automaton(f'Int2-5-{a}.txt')
-            display_finite_automaton(blblbl)
+            determinize_automaton(f'Int2-5-{a}.txt')
+            display_finite_automaton('deterministic_automaton.txt')
           elif b==5:
             break
         else:
