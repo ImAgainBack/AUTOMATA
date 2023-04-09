@@ -4,7 +4,7 @@ b=3
 
 while b!=5:
   try:
-    a=int(input("Which automata do you want to analyse from 1 to 44?\n\n"))
+    a=int(input("Which automata do you want to analyse from 1 to 44?\n"))
     if 1<=a<=44:
       try:
         b=int(input("0- See graph of that automata\n"
