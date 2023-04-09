@@ -58,9 +58,9 @@ while b!=7:
           elif b==7:
             break
         else:
-          print('Enter a value between 0 and 5.\n\n')
+          print('Enter a value between 0 and 7.\n\n')
       except ValueError:
-        print('Please, enter an integer between 0 and 5.\n\n')
+        print('Please, enter an integer between 0 and 7.\n\n')
   except ValueError:
     print('Please, enter an integer between 1 and 44.\n\n')
 print('Program ended.\n')
