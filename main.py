@@ -14,20 +14,20 @@ while b!=4:
             "4- Quit\n"))
         if ((0<=b<=4) & (1<=a<=44)):
           if b== 0:
-            display_finite_automaton('int-2-4-{a}.txt')
+            display_finite_automaton(f'Int2-5-{a}.txt')
           elif b==1:
-            print(is_automaton_deterministic(f'int2-4-{a}.txt'))
+            print(is_automaton_deterministic(f'Int2-5-{a}.txt'))
           elif b==2:
-            if (is_automaton_standard(f'int2-4-{a}.txt')==True & is_automaton_deterministic(f'int2-4-{a}.txt')==True):
+            if (is_automaton_standard(f'Int2-5-{a}.txt')==True & is_automaton_deterministic(f'Int2-5-{a}.txt')==True):
               print('This automata is standard and deterministic')
-            elif (is_automaton_standard(f'int2-4-{a}.txt')==True & is_automaton_deterministic(f'int2-4-{a}.txt')==False):
+            elif (is_automaton_standard(f'Int2-5-{a}.txt')==True & is_automaton_deterministic(f'Int2-5-{a}.txt')==False):
               print('This automata is standard and is NOT deterministic')
-            elif (is_automaton_standard(f'int2-4-{a}.txt')==False & is_automaton_deterministic(f'int2-4-{a}.txt')==True):
+            elif (is_automaton_standard(f'Int2-5-{a}.txt')==False & is_automaton_deterministic(f'Int2-5-{a}.txt')==True):
               print('This automata is NOT standard but is deterministic')
             else:
               print("This automata is NOT standard and isn't deterministic")
           elif b==3:
-            standardize_finite_automaton(f'int2-4-{a}.txt')
+            standardize_finite_automaton(f'Int2-5-{a}.txt')
 
         else:
           break

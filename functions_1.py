@@ -272,7 +272,7 @@ def display_finite_automaton(file_name):
             # add the circle node for each state that is not an initial state
             dot.node(str(i), shape='circle')
         # check if the state is a final state
-        elif i in nb_of_final_states:
+        if i in nb_of_final_states:
             dot.node(str(i), shape='doublecircle')
         else:
             # add the circle node for each state that is not an initial state or a final state
@@ -381,19 +381,6 @@ def standardize_finite_automaton(file_name):
 
 #----------------------Test------------------------------------
 
-# call the function with the filename of the automaton
-print("The automaton is complete : ", is_automaton_complete('automate.txt'))
-print("The automaton is standard : ", is_automaton_standard('automate.txt'))
-print("The automaton is deterministic : ", is_automaton_deterministic('automate.txt'))
-
-#print("\n", fill_new_table('automate.txt',create_new_table(data,'automate.txt')))
-#print("\n\n", print_automata_array('automate.txt'))
-
-#fill_new_table('automate.txt',create_new_table('automate.txt'))
-
-
-standardize_finite_automaton('automate.txt')
-display_finite_automaton('standard_automaton.txt')
 
 
 
