@@ -2,7 +2,7 @@ from functions_1 import *
 
 b=3
 
-while b!=4:
+while b!=5:
   try:
     a=int(input("Which automata do you want to analyse from 1 to 44?\n\n"))
     if 1<=a<=44:
